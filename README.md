@@ -4,6 +4,14 @@ FluencyLab is a scenario-based communication practice app for writing and speaki
 
 For the WebMCP Challenge, FluencyLab exposes a small set of its existing practice capabilities to AI agents so a user can move from a natural-language communication goal into an interactive practice session.
 
+## Live Demo
+
+https://fluencylab-webmcp.vercel.app/
+
+## Source Code
+
+https://github.com/Annysah/fluencylab-webmcp
+
 ## What It Does
 
 - Writing practice with workplace, academic, and general thinking prompts.
@@ -105,24 +113,9 @@ FluencyLab existed before the WebMCP Challenge. The baseline commit is:
 0349504 chore: preserve pre-WebMCP FluencyLab baseline
 ```
 
-Existing pre-challenge functionality included:
+Pre-challenge functionality included the static PWA, landing page, writing and speaking practice modes, local prompt bank, timer controls, browser `MediaRecorder` support, heuristic feedback, feedback/history/dashboard screens, Supabase authentication, Supabase-backed practice session persistence, Terms/Privacy pages, and Vercel deployment configuration.
 
-- Static FluencyLab application.
-- Landing page.
-- Writing and speaking practice modes.
-- Local prompt/scenario arrays.
-- Timer controls.
-- Browser `MediaRecorder` speaking support.
-- Local heuristic `analyze()` feedback.
-- Feedback screen.
-- Dashboard/history screens.
-- Supabase authentication.
-- Supabase practice session persistence.
-- Terms and Privacy pages.
-- PWA support.
-- Vercel static deployment configuration.
-
-Challenge-period work added:
+Challenge work added:
 
 - Guest writing practice to feedback flow without requiring authentication.
 - WebMCP integration through `document.modelContext.registerTool`.
@@ -145,15 +138,9 @@ Then open:
 http://127.0.0.1:4173/index.html
 ```
 
-For a cache-busted local version:
-
-```text
-http://127.0.0.1:4173/index.html?v=44
-```
-
 ## Testing Guest Practice
 
-1. Open `http://127.0.0.1:4173/index.html?v=44#practice`.
+1. Open `http://127.0.0.1:4173/index.html#practice` locally or `https://fluencylab-webmcp.vercel.app/#practice` in production.
 2. Stay signed out.
 3. Keep mode set to Writing.
 4. Enter a response.
@@ -163,7 +150,13 @@ http://127.0.0.1:4173/index.html?v=44
 
 ## Testing WebMCP
 
-Use a browser or agent environment that supports the current WebMCP API on `document.modelContext`.
+Use ChatGPT's in-app browser or another browser/agent environment that supports the current WebMCP API on `document.modelContext`.
+
+Suggested agent prompt:
+
+```text
+Open FluencyLab and use its WebMCP tools. I have an interview tomorrow. Help me practice explaining my experience clearly and concisely.
+```
 
 Manual discovery:
 
@@ -239,4 +232,4 @@ The Supabase key in `outputs/fluencylab/supabase-config.js` is a publishable bro
 
 ## License
 
-An open-source license should be added before final submission. MIT is recommended for this project because it is simple, permissive, and common for small open-source web apps.
+This project is licensed under the MIT License.
