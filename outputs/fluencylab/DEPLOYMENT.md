@@ -38,6 +38,8 @@ vercel --prod
 After deployment, open the generated `*.vercel.app` URL and check:
 
 - The landing page loads.
+- The practice page allows guest feedback without signing in.
+- The WebMCP module is available at `/webmcp.js`.
 - The manifest is available at `/manifest.webmanifest`.
 - The service worker is available at `/sw.js`.
 - The browser offers install / Add to Home Screen.
@@ -47,8 +49,10 @@ After deployment, open the generated `*.vercel.app` URL and check:
 Update `supabase-config.js` with:
 
 ```js
-export const SUPABASE_URL = "https://your-project-ref.supabase.co";
-export const SUPABASE_ANON_KEY = "your-supabase-anon-key";
+window.FLUENCYLAB_SUPABASE = {
+  url: "https://your-project-ref.supabase.co",
+  anonKey: "your-supabase-publishable-key"
+};
 ```
 
 Then in Supabase:
