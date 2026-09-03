@@ -124,82 +124,23 @@ Challenge work added:
 - WebMCP-triggered response analysis.
 - UI synchronization between agent actions and the normal human interface.
 
-## Running Locally
-
-From the project root:
-
-```bash
-npm start
-```
-
-Then open:
-
-```text
-http://127.0.0.1:4173/index.html
-```
-
-## Testing Guest Practice
-
-1. Open `http://127.0.0.1:4173/index.html#practice` locally or `https://fluencylab-webmcp.vercel.app/#practice` in production.
-2. Stay signed out.
-3. Keep mode set to Writing.
-4. Enter a response.
-5. Click `Get feedback`.
-6. Confirm the app opens the Feedback screen.
-7. Confirm no sign-in modal appears.
-
 ## Testing WebMCP
 
-Use ChatGPT's in-app browser or another browser/agent environment that supports the current WebMCP API on `document.modelContext`.
+Use ChatGPT's in-app browser or another browser/agent environment that supports WebMCP.
 
-Suggested agent prompt:
+Open the live demo and prompt the agent:
 
 ```text
 Open FluencyLab and use its WebMCP tools. I have an interview tomorrow. Help me practice explaining my experience clearly and concisely.
 ```
 
-Manual discovery:
+Expected demo behavior:
 
-```js
-await document.modelContext.getTools()
-```
-
-Invoke prompt generation:
-
-```js
-const tools = await document.modelContext.getTools();
-await document.modelContext.executeTool(
-  tools.find((tool) => tool.name === "generate_practice_prompt"),
-  {
-    mode: "writing",
-    category: "Workplace",
-    difficulty: "Intermediate",
-    focus: "Interview practice"
-  }
-);
-```
-
-Invoke analysis:
-
-```js
-const tools = await document.modelContext.getTools();
-await document.modelContext.executeTool(
-  tools.find((tool) => tool.name === "analyze_response"),
-  {
-    response: "I would explain my experience by starting with the result, then naming the skills I used, and closing with how that experience prepares me for the role."
-  }
-);
-```
-
-Invoke retry:
-
-```js
-const tools = await document.modelContext.getTools();
-await document.modelContext.executeTool(
-  tools.find((tool) => tool.name === "retry_prompt"),
-  {}
-);
-```
+- The browser detects FluencyLab's WebMCP tools.
+- The agent starts a relevant practice session in the visible app UI.
+- The user types or records a response in FluencyLab.
+- The agent can use FluencyLab to analyze the response and show structured feedback.
+- The same visible interface remains usable by a human without the agent.
 
 ## Deployment
 
