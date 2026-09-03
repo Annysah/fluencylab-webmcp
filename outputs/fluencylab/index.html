@@ -2874,7 +2874,7 @@
         privacy: "Privacy Policy - FluencyLab"
       };
       const appPages = new Set(Object.keys(pageTitles));
-      const protectedPages = new Set(["dashboard", "feedback", "history"]);
+      const protectedPages = new Set(["dashboard", "history"]);
 
       function formatDuration(totalSeconds) {
         const minutes = Math.floor(totalSeconds / 60);
@@ -3470,7 +3470,9 @@
           },
           feedback
         };
-        if (!(await saveSession(session))) return;
+        if (state.user) {
+          if (!(await saveSession(session))) return;
+        }
         renderFeedback(feedback);
         els.appStatus.textContent = `Feedback ready. Overall score ${feedback.overall} out of 10.`;
         navigateToPage("feedback");

@@ -1,4 +1,4 @@
-const CACHE_NAME = "fluencylab-pwa-v42";
+const CACHE_NAME = "fluencylab-pwa-v43";
 const APP_ASSETS = [
   "./",
   "./index.html",
