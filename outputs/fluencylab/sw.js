@@ -1,7 +1,8 @@
-const CACHE_NAME = "fluencylab-pwa-v43";
+const CACHE_NAME = "fluencylab-pwa-v44";
 const APP_ASSETS = [
   "./",
   "./index.html",
+  "./webmcp.js",
   "./supabase-config.js?v=20260901-ui26",
   "./manifest.webmanifest",
   "./assets/fluencylab-workspace.png",

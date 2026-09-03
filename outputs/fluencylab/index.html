@@ -2753,6 +2753,8 @@
 
     <script src="./supabase-config.js?v=20260901-ui26"></script>
     <script type="module">
+      import { registerFluencyLabWebMcp } from "./webmcp.js";
+
       const SUPABASE_URL = window.FLUENCYLAB_SUPABASE?.url || "";
       const SUPABASE_ANON_KEY = window.FLUENCYLAB_SUPABASE?.anonKey || "";
 
@@ -3276,6 +3278,21 @@
         return `tag-${String(value).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
       }
 
+      function applyPromptSettings({ mode, category, difficulty }) {
+        els.mode.value = mode;
+        els.category.value = category;
+        els.difficulty.value = difficulty;
+        pickPrompt();
+        navigateToPage("practice");
+        return {
+          mode: state.prompt.mode,
+          category: state.prompt.category,
+          difficulty: state.prompt.difficulty,
+          text: state.prompt.text,
+          modifier: state.prompt.modifier
+        };
+      }
+
       function pickPrompt() {
         const mode = els.mode.value;
         const category = els.category.value;
@@ -3476,6 +3493,37 @@
         renderFeedback(feedback);
         els.appStatus.textContent = `Feedback ready. Overall score ${feedback.overall} out of 10.`;
         navigateToPage("feedback");
+      }
+
+      function analyzeResponseForUi(response) {
+        const text = response.trim();
+        els.responseText.value = text;
+        els.workspaceStats.textContent = `${wordCount(text)} words`;
+        const feedback = analyze(text, state.mode);
+        state.lastFeedback = feedback;
+        renderFeedback(feedback);
+        els.appStatus.textContent = `Feedback ready. Overall score ${feedback.overall} out of 10.`;
+        navigateToPage("feedback");
+        return feedback;
+      }
+
+      function retryCurrentPrompt() {
+        els.responseText.value = "";
+        els.workspaceStats.textContent = "0 words";
+        els.feedbackContent.classList.add("hidden");
+        els.feedbackContent.innerHTML = "";
+        els.feedbackEmpty.classList.remove("hidden");
+        if (!state.prompt) pickPrompt();
+        setupMode();
+        resetTimer();
+        navigateToPage("practice");
+        return {
+          mode: state.prompt.mode,
+          category: state.prompt.category,
+          difficulty: state.prompt.difficulty,
+          text: state.prompt.text,
+          modifier: state.prompt.modifier
+        };
       }
 
       function renderFeedback(feedback) {
@@ -3745,6 +3793,13 @@
       renderDashboard();
       renderHistory();
       setPage(pageFromHash() || (state.user ? "dashboard" : "landing"));
+      registerFluencyLabWebMcp({
+        generatePracticePrompt: applyPromptSettings,
+        analyzeResponse: analyzeResponseForUi,
+        retryCurrentPrompt
+      }).catch((error) => {
+        console.warn("[FluencyLab WebMCP] Tool registration failed.", error);
+      });
       window.addEventListener("hashchange", () => {
         const page = pageFromHash();
         if (page) setPage(page);
